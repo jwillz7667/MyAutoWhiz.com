@@ -15,8 +15,7 @@
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "postinstall": "prisma generate || true"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.0",

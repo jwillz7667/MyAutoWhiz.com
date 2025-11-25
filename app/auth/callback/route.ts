@@ -10,7 +10,7 @@
  * It exchanges the code for a session and redirects to the dashboard.
  */
 
-import { createServerSupabaseClient } from '@/lib/supabase/client';
+import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {

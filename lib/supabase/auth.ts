@@ -10,7 +10,7 @@
  * - Email verification
  */
 
-import { createBrowserSupabaseClient, createServerSupabaseClient } from './client';
+import { createBrowserSupabaseClient } from './client';
 import type { Provider, AuthError, User, Session } from '@supabase/supabase-js';
 
 // =============================================================================
@@ -476,63 +476,6 @@ export function onAuthStateChange(
   return supabase.auth.onAuthStateChange((event, session) => {
     callback(event, session);
   });
-}
-
-// =============================================================================
-// SERVER-SIDE AUTH FUNCTIONS
-// =============================================================================
-
-/**
- * Get session on server side
- */
-export async function getServerSession(): Promise<Session | null> {
-  const supabase = await createServerSupabaseClient();
-  
-  const { data: { session } } = await supabase.auth.getSession();
-  return session;
-}
-
-/**
- * Get user on server side
- */
-export async function getServerUser(): Promise<User | null> {
-  const supabase = await createServerSupabaseClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  return user;
-}
-
-/**
- * Protect a server action - throws if not authenticated
- */
-export async function requireAuth(): Promise<User> {
-  const user = await getServerUser();
-  
-  if (!user) {
-    throw new Error('Authentication required');
-  }
-  
-  return user;
-}
-
-/**
- * Protect a server action and require specific role
- */
-export async function requireRole(allowedRoles: string[]): Promise<User> {
-  const user = await requireAuth();
-  const supabase = await createServerSupabaseClient();
-  
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-  
-  if (!profile || !allowedRoles.includes(profile.role)) {
-    throw new Error('Insufficient permissions');
-  }
-  
-  return user;
 }
 
 // =============================================================================

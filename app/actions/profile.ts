@@ -8,7 +8,7 @@
 
 'use server';
 
-import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/supabase/client';
+import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/supabase/server-client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import type { UserPreferences } from '@/types/database';
