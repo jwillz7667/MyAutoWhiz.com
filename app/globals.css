@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   CSS Custom Properties (Design Tokens)
+   ============================================================================ */
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 187 100% 50%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 89% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 187 100% 50%;
+    --radius: 0.75rem;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 187 100% 42%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 187 100% 42%;
+  }
+}
+
+/* ============================================================================
+   Base Styles
+   ============================================================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-primary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-elevated rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-surface-border;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-brand-500/30 text-white;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* ============================================================================
+   Component Styles
+   ============================================================================ */
+
+@layer components {
+  /* Glass card effect */
+  .glass-card {
+    @apply relative overflow-hidden rounded-xl border border-white/10 bg-gradient-card backdrop-blur-xl;
+  }
+
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 bg-noise opacity-[0.02] pointer-events-none;
+  }
+
+  /* Score ring component */
+  .score-ring {
+    @apply relative inline-flex items-center justify-center;
+  }
+
+  .score-ring-circle {
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dashoffset 1s ease-out;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-400 via-brand-500 to-success bg-clip-text text-transparent;
+  }
+
+  /* Animated border */
+  .animated-border {
+    @apply relative;
+  }
+
+  .animated-border::before {
+    content: '';
+    @apply absolute -inset-px rounded-xl bg-gradient-to-r from-brand-500 via-success to-brand-500 opacity-0 blur transition-opacity duration-500;
+    background-size: 200% 200%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .animated-border:hover::before {
+    @apply opacity-50;
+  }
+
+  /* Status badges */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success/20 text-success;
+  }
+
+  .badge-warning {
+    @apply bg-warning/20 text-warning;
+  }
+
+  .badge-error {
+    @apply bg-error/20 text-error;
+  }
+
+  .badge-info {
+    @apply bg-info/20 text-info;
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-4 transition-all duration-300 hover:border-brand-500/30;
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    @apply relative flex flex-col items-center justify-center gap-3 p-8 border-2 border-dashed border-white/20 rounded-xl transition-all duration-300 cursor-pointer;
+  }
+
+  .upload-zone:hover,
+  .upload-zone.dragover {
+    @apply border-brand-500 bg-brand-500/5;
+  }
+
+  /* Timeline */
+  .timeline-item {
+    @apply relative pl-8 pb-8 last:pb-0;
+  }
+
+  .timeline-item::before {
+    content: '';
+    @apply absolute left-3 top-8 bottom-0 w-px bg-surface-border;
+  }
+
+  .timeline-item:last-child::before {
+    @apply hidden;
+  }
+
+  .timeline-dot {
+    @apply absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center;
+  }
+
+  /* Pulse indicator */
+  .pulse-indicator {
+    @apply relative inline-flex h-2 w-2;
+  }
+
+  .pulse-indicator::before {
+    content: '';
+    @apply absolute inline-flex h-full w-full rounded-full bg-current opacity-75 animate-ping;
+  }
+
+  .pulse-indicator::after {
+    content: '';
+    @apply relative inline-flex h-2 w-2 rounded-full bg-current;
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    @apply relative overflow-hidden bg-surface-tertiary rounded;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer;
+  }
+
+  /* Nav item */
+  .nav-item {
+    @apply relative flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground transition-colors hover:text-foreground hover:bg-white/5;
+  }
+
+  .nav-item.active {
+    @apply text-brand-500 bg-brand-500/10;
+  }
+
+  .nav-item.active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-brand-500 rounded-r-full;
+  }
+}
+
+/* ============================================================================
+   Utility Classes
+   ============================================================================ */
+
+@layer utilities {
+  /* Animation delays */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Safe area insets for mobile */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ============================================================================
+   Print Styles
+   ============================================================================ */
+
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .glass-card {
+    @apply bg-white border-gray-200 shadow-none;
+  }
+}
+
+/* ============================================================================
+   Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
